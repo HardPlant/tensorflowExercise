@@ -23,4 +23,10 @@ with tf.Session() as sess:
     plt.plot(W_val, cost_val)
     plt.show()
 
-
+'''
+learning_rate = 0.1
+gradient = tf.reduce_mean((W*X-Y))*X)
+# W- 1/m*sum((W*xi-yi)*xi)
+descent = W - learning_rate * gradient
+update = W.assign(descent)
+'''
