@@ -18,7 +18,7 @@ b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
 hypothesis = tf.nn.softmax(tf.matmul(X,W) + b)
 
 cost = tf.reduce_mean(-tf.reduce_sum(Y*tf.log(hypothesis), axis=1))
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=1.5).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-10).minimize(cost)
 
 #prediction calculation
 prediction = tf.argmax(hypothesis, 1) # pb -> one of o~6
