@@ -16,7 +16,7 @@ y_data = xy[:,[-1]]
 W = tf.Variable(tf.random_normal([4,1]), name='weight')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 
-X = tf.placeholder(tf.float32, shape=[None,3])#amount ,row of a data
+X = tf.placeholder(tf.float32, shape=[None,4])#amount ,row of a data
 Y = tf.placeholder(tf.float32, shape=[None,1])
 
 #hypothesis
