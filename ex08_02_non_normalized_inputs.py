@@ -9,3 +9,30 @@ xy = np.array([[828.659973, 833.450012, 908100, 828.349976, 831.659973],
                [811.700012, 815.25, 1098100, 809.780029, 813.669983],
                [809.51001, 816.659973, 1398100, 804.539978, 809.559998]])
 
+x_data = xy[:,0:-1]
+y_data = xy[:,[-1]]
+
+
+W = tf.Variable(tf.random_normal([4,1]), name='weight')
+b = tf.Variable(tf.random_normal([1]), name='bias')
+
+X = tf.placeholder(tf.float32, shape=[None,3])#amount ,row of a data
+Y = tf.placeholder(tf.float32, shape=[None,1])
+
+#hypothesis
+hypothesis = tf.matmul(X,W) + b
+
+#cost/loss
+cost = tf.reduce_mean(tf.square(hypothesis-Y))
+#optimizer
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-5)
+train=optimizer.minimize(cost)
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+
+    for step in range(2001):
+        cost_val, hy_val, _ = sess.run(
+            [cost, hypothesis, train], feed_dict = {X:x_data,Y:y_data})
+        if step % 10 == 0:
+            print(step, "Cost:", cost_val, "\nPrediction:\n", hy_val)
