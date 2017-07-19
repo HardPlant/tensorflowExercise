@@ -33,7 +33,7 @@ with tf.Session() as sess:
     #Training cycle
     for epoch in range(training_epochs):
         avg_cost = 0
-        total_batch = int(mnist.train_num_examples / batch_size)
+        total_batch = int(mnist.train.num_examples / batch_size)
 
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
@@ -45,7 +45,7 @@ with tf.Session() as sess:
                 'cost:', '{:.9f}'.format(avg_cost))
     print("Learning finished")
 
-    print("Accuracy:", accuracy.eval(session=sess, feed_dict{
+    print("Accuracy:", accuracy.eval(session=sess, feed_dict={
         X: mnist.test.images, Y: mnist.test.labels}))
 
     #Get one and predict
