@@ -11,23 +11,23 @@ nb_classes = 10
 X = tf.placeholder(tf.float32, [None, 784])
 Y = tf.placeholder(tf.float32, [None, nb_classes])
 
-W1 = tf.Variable(tf.random_normal([784, 10]))
+w1 = tf.Variable(tf.random_normal([784, 10]))
 b1 = tf.Variable(tf.random_normal([10]))
 
-layer1 = tf.nn.softmax(tf.matmul(X,W1)+b1)
-W2 = tf.Variable(tf.random_normal([10, 10]))
+layer1 = tf.nn.sigmoid(tf.matmul(X,w1)+b1)
+w2 = tf.Variable(tf.random_normal([10, 10]))
 b2 = tf.Variable(tf.random_normal([10]))
 
-layer2 = tf.nn.softmax(tf.matmul(layer1,W2)+b2)
-W3 = tf.Variable(tf.random_normal([10, 10]))
+layer2 = tf.nn.sigmoid(tf.matmul(layer1,w2)+b2)
+w3 = tf.Variable(tf.random_normal([10, 10]))
 b3 = tf.Variable(tf.random_normal([10]))
 
-layer3 = tf.nn.softmax(tf.matmul(layer2,W3)+b3)
-W4 = tf.Variable(tf.random_normal([10, nb_classes]))
+layer3 = tf.nn.sigmoid(tf.matmul(layer2,w3)+b3)
+w4 = tf.Variable(tf.random_normal([10, nb_classes]))
 b4 = tf.Variable(tf.random_normal([nb_classes]))
 
 #hypothesis == softmax
-hypothesis = tf.nn.softmax(tf.matmul(layer3,W4)+b4)
+hypothesis = tf.nn.softmax(tf.matmul(layer3,w4)+b4)
 
 cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
