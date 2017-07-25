@@ -99,7 +99,19 @@ for epoch in range(training_epochs):
 
 print('Finished!')
 
-print('Accuracy:', m1.get_accuracy(mnist.test.images,mnist.test.labels))
+test_size = len(mnist.test.labels)
+predictions = np.zeros(test_size*10).reshape(test_size, 10)
+
+for m_idx, m in enumerate(models):
+    print(m_idx, 'Accuracy :', m.get_accuracy(mnist.test.images, mnist.test.labels))
+    p = m.predict(mnist.test.images)
+    predictions += p # simple add
+
+ensemble_correct_predictions = tf.equal(
+    tf.argmax(predictions, 1), tf.argmax(mnist.test.labels,1))
+ensemble_accuracy = tf.reduce_mean(
+    tf.cast(ensemble_correct_predictions, tf.float32))
+print('Ensemble accuracy:', sess.run(ensemble_accuracy))
 
 
 
