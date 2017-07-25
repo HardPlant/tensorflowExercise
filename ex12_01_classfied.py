@@ -75,6 +75,7 @@ class Model:
         return self.sess.run([cost, optimizer], feed_dict =
          {self.X: x_data, self.Y: y_data, self.keep_prob:keep_prop})
 
+
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 # Check out https://www.tensorflow.org/get_started/mnist/beginners for
 # more information about the mnist dataset
