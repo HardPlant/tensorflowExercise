@@ -11,19 +11,19 @@ nb_classes = 10
 X = tf.placeholder(tf.float32, [None, 784])
 Y = tf.placeholder(tf.float32, [None, nb_classes])
 
-w1 = tf.Variable(tf.random_normal([784, 10]))
-b1 = tf.Variable(tf.random_normal([10]))
+w1 = tf.Variable(tf.random_normal([784, 256]))
+b1 = tf.Variable(tf.random_normal([256]))
 
 layer1 = tf.nn.relu(tf.matmul(X,w1)+b1)
-w2 = tf.Variable(tf.random_normal([10, 10]))
-b2 = tf.Variable(tf.random_normal([10]))
+w2 = tf.Variable(tf.random_normal([256, 256]))
+b2 = tf.Variable(tf.random_normal([256]))
 
 layer2 = tf.nn.relu(tf.matmul(layer1,w2)+b2)
-w3 = tf.Variable(tf.random_normal([10, 10]))
-b3 = tf.Variable(tf.random_normal([10]))
+w3 = tf.Variable(tf.random_normal([256,256]))
+b3 = tf.Variable(tf.random_normal([256]))
 
 layer3 = tf.nn.relu(tf.matmul(layer2,w3)+b3)
-w4 = tf.Variable(tf.random_normal([10, nb_classes]))
+w4 = tf.Variable(tf.random_normal([256, nb_classes]))
 b4 = tf.Variable(tf.random_normal([nb_classes]))
 
 #hypothesis == softmax
