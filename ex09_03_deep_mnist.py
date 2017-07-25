@@ -27,10 +27,11 @@ w4 = tf.Variable(tf.random_normal([10, nb_classes]))
 b4 = tf.Variable(tf.random_normal([nb_classes]))
 
 #hypothesis == softmax
-hypothesis = tf.nn.softmax(tf.matmul(layer3,w4)+b4)
+hypothesis = tf.matmul(layer3,w4)+b4
 
-cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
+    logits=hypothesis, labels=Y))
+optimizer = tf.train.AdamOptimizer(learning_rate=0.06).minimize(cost)
 
 #Test model
 is_correct = tf.equal(tf.arg_max(hypothesis,1), tf.arg_max(Y,1))
