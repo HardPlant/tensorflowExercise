@@ -15,7 +15,7 @@ class Model:
         with tf.variable_scope(self.name):
             self.training = tf.placeholder(tf.bool)
             self.learning_rate = 1e-3
-            
+
             self.X = tf.placeholder(tf.float32, [None, 784])
             X_img = tf.reshape(self.X, [-1,28,28,1]) # n=-1, 28*28*color=1
             self.Y = tf.placeholder(tf.float32, [None, 10])
@@ -73,12 +73,12 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 img = mnist.train.images[0].reshape(28,28)
 
 #parameters
-training_epochs = 15
+training_epochs = 1
 batch_size = 100
 
 sess = tf.Session()
 models = []
-num_models = 7
+num_models = 2
 for m in range(num_models):
     models.append(Model(sess, "model" + str(m)))
 
@@ -92,7 +92,7 @@ for epoch in range(training_epochs):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
 
         for m_idx, m in enumerate(models):
-            c, _ = m1.train(batch_xs, batch_ys)
+            c, _ = m.train(batch_xs, batch_ys)
             avg_cost_list[m_idx] += c/total_batch
 
     print('Epoch:','%04d'%(epoch+1), 'cost=',avg_cost_list)
