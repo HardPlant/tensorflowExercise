@@ -97,6 +97,7 @@ sess.run(tf.global_variables_initializer())
 training_epochs = 1
 batch_size = 100
 
+print('started!')
 for epoch in range(training_epochs):
     avg_cost = 0
     total_batch = int(mnist.train.num_examples / batch_size)
