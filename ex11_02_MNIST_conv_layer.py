@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
@@ -18,3 +19,4 @@ conv2d_img = conv2d.eval()
 conv2d_img=np.swapaxes(conv2d_img,0,3)
 for i, one_img in enumerate(conv2d_img):
     plt.subplot(1,5,i+1), plt.imshow(one_img.reshape(14,14),cmap='gray')
+plt.show()
