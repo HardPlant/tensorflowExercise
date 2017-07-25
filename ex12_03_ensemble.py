@@ -72,23 +72,30 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 # more information about the mnist dataset
 img = mnist.train.images[0].reshape(28,28)
 
-sess = tf.Session()
-m1 = Model(sess,"m1")
-sess.run(tf.global_variables_initializer())
-
 #parameters
 training_epochs = 15
 batch_size = 100
 
+sess = tf.Session()
+models = []
+num_models = 7
+for m in range(num_models):
+    models.append(Model(sess, "model" + str(m)))
+
+sess.run(tf.global_variables_initializer())
+
 print('started!')
 for epoch in range(training_epochs):
-    avg_cost = 0
+    avg_cost_list = np.zeros(len(models))
     total_batch = int(mnist.train.num_examples / batch_size)
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-        c, _ = m1.train(batch_xs, batch_ys)
-        avg_cost += c/total_batch
-    print('Epoch:','%04d'%(epoch+1), 'cost=','{:.9f}'.format(avg_cost))
+
+        for m_idx, m in enumerate(models):
+            c, _ = m1.train(batch_xs, batch_ys)
+            avg_cost_list[m_idx] += c/total_batch
+
+    print('Epoch:','%04d'%(epoch+1), 'cost=',avg_cost_list)
 
 print('Finished!')
 
