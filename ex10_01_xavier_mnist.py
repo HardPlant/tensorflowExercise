@@ -11,22 +11,22 @@ nb_classes = 10
 X = tf.placeholder(tf.float32, [None, 784])
 Y = tf.placeholder(tf.float32, [None, nb_classes])
 
-w1 = tf.Variable("w1", shape[784,256],
+w1 = tf.get_variable("w1", shape=[784,256],\
 initializer= tf.contrib.layers.xavier_initializer())
 b1 = tf.Variable(tf.random_normal([256]))
 
 layer1 = tf.nn.relu(tf.matmul(X,w1)+b1)
-w2 = tf.Variable("w2", shape[256,256],
+w2 = tf.get_variable("w2", shape=[256,256],\
 initializer= tf.contrib.layers.xavier_initializer())
 b2 = tf.Variable(tf.random_normal([256]))
 
 layer2 = tf.nn.relu(tf.matmul(layer1,w2)+b2)
-w3 = tf.Variable("w3", shape[256,256],
+w3 = tf.get_variable("w3", shape=[256,256],\
 initializer= tf.contrib.layers.xavier_initializer())
 b3 = tf.Variable(tf.random_normal([256]))
 
 layer3 = tf.nn.relu(tf.matmul(layer2,w3)+b3)
-w4 = tf.Variable(tf.random_normal("w4", shape[256,nb_classes],
+w4 = tf.get_variable("w4", shape=[256,nb_classes],\
 initializer= tf.contrib.layers.xavier_initializer())
 b4 = tf.Variable(tf.random_normal([nb_classes]))
 
@@ -35,7 +35,7 @@ hypothesis = tf.matmul(layer3,w4)+b4
 
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
     logits=hypothesis, labels=Y))
-optimizer = tf.train.AdamOptimizer(learning_rate=0.06).minimize(cost)
+optimizer = tf.train.AdamOptimizer(learning_rate=1e-5).minimize(cost)
 
 #Test model
 is_correct = tf.equal(tf.arg_max(hypothesis,1), tf.arg_max(Y,1))
