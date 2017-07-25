@@ -94,7 +94,7 @@ m1 = Model(sess,"m1")
 sess.run(tf.global_variables_initializer())
 
 #parameters
-training_epochs = 1
+training_epochs = 15
 batch_size = 100
 
 print('started!')
