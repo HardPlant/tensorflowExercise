@@ -17,7 +17,7 @@ class Model:
             X_img = tf.reshape(self.X, [-1,28,28,1]) # n=-1, 28*28*color=1
             self.Y = tf.placeholder(tf.float32, [None, 10])
         
-            self.training = tf.placeholder(tf.float32)
+            self.training = tf.placeholder(tf.bool)
             
             conv1 = tf.layers.conv2d(inputs=X_img, filters=32, kernel_size=[3,3],
                 padding='SAME', activation=tf.nn.relu)
@@ -34,12 +34,12 @@ class Model:
 
             conv3 = tf.layers.conv2d(inputs=dropout2, filters=128, kernel_size=[3,3],
                padding='SAME', activation=tf.nn.relu)
-            pool3 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2,2], padding='SAME', strides=2)
-            dropout3 = tf.layers.dropout(inputs=pool2, rate=0.7, training=self.training)
+            pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2,2], padding='SAME', strides=2)
+            dropout3 = tf.layers.dropout(inputs=pool3, rate=0.7, training=self.training)
 
             #flat & dense
-            flat = tf.reshape(dropout3, [-1,128,4*4])
-            dense4 = tf.layers.dense(input=flat, units=625, activation=tf.nn.relu)
+            flat = tf.reshape(dropout3, [-1,128*4*4])
+            dense4 = tf.layers.dense(inputs=flat, units=625, activation=tf.nn.relu)
             dropout4 = tf.layers.dropout(dense4, rate=0.5, training=self.training)
 
             self.logits = tf.layers.dense(inputs=dropout4, units=10)
