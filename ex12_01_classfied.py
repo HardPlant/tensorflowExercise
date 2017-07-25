@@ -59,14 +59,14 @@ class Model:
             W5 = tf.get_variable("W5", shape=[625, 10],
                 initializer = tf.contrib.layers.xavier_initializer())
             b5 = tf.Variable(tf. random_normal([10])) # of out
-            self.hypothesis = tf.matmul(L4,W5) + b5
+            self.logits = tf.matmul(L4,W5) + b5
 
             self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-                logits=self.hypothesis, labels=self.Y))
+                logits=self.logits, labels=self.Y))
             self.optimizer = tf.train.AdamOptimizer(learning_rate=1e-5).\
                     minimize(self.cost)
 
-            self.correct_prediction = tf.equal(tf.argmax(self.hypothesis,1),
+            self.correct_prediction = tf.equal(tf.argmax(self.logits,1),
             tf.argmax(self.Y,1))
             self.accuracy = tf.reduce_mean(tf.cast(self.correct_prediction,
             tf.float32))
