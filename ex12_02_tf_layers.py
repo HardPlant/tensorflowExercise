@@ -17,7 +17,7 @@ class Model:
             X_img = tf.reshape(self.X, [-1,28,28,1]) # n=-1, 28*28*color=1
             self.Y = tf.placeholder(tf.float32, [None, 10])
         
-            self.keep_prob = tf.placeholder(tf.float32)
+            self.training = tf.placeholder(tf.float32)
             
             conv1 = tf.layers.conv2d(inputs=X_img, filters=32, kernel_size=[3,3],
                 padding='SAME', activation=tf.nn.relu)
@@ -58,17 +58,17 @@ class Model:
             self.accuracy = tf.reduce_mean(tf.cast(self.correct_prediction,
             tf.float32))
 
-    def predict(self, x_test, keep_prop=1.0):
+    def predict(self, x_test, training=1.0):
         return self.sess.run(self.logits,
-            feed_dict={self.X:x_test, self.keep_prob:keep_prop})
+            feed_dict={self.X:x_test, self.training:training})
     
-    def get_accuracy(self, x_test, y_test, keep_prop=1.0):
+    def get_accuracy(self, x_test, y_test, training=1.0):
         return self.sess.run(self.accuracy, feed_dict={ 
-            self.X:x_test,self.Y:y_test,self.keep_prob:keep_prop})
+            self.X:x_test,self.Y:y_test,self.training:training})
 
-    def train(self, x_data, y_data, keep_prop=0.7):
+    def train(self, x_data, y_data, training=True):
         return self.sess.run([self.cost, self.optimizer], feed_dict =
-         {self.X: x_data, self.Y: y_data, self.keep_prob: keep_prop})
+         {self.X: x_data, self.Y: y_data, self.training: training})
 
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
