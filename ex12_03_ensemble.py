@@ -13,18 +13,18 @@ class Model:
 
     def _build_net(self):
         with tf.variable_scope(self.name):
+            self.training = tf.placeholder(tf.bool)
+            self.learning_rate = 1e-3
+            
             self.X = tf.placeholder(tf.float32, [None, 784])
             X_img = tf.reshape(self.X, [-1,28,28,1]) # n=-1, 28*28*color=1
             self.Y = tf.placeholder(tf.float32, [None, 10])
-        
-            self.training = tf.placeholder(tf.bool)
             
             conv1 = tf.layers.conv2d(inputs=X_img, filters=32, kernel_size=[3,3],
                 padding='SAME', activation=tf.nn.relu)
             pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2,2], padding='SAME', strides=2)
             dropout1 = tf.layers.dropout(inputs=pool1, rate=0.7, training=self.training)
             # training=false->rate will 1.0 (on test)
-
             
             #L2 ImgIn shape=(?,14,14,32)
             conv2 = tf.layers.conv2d(inputs=dropout1, filters=64, kernel_size=[3,3],
@@ -46,7 +46,7 @@ class Model:
 
         self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
             logits=self.logits, labels=self.Y))
-        self.optimizer = tf.train.AdamOptimizer(learning_rate=1e-5).\
+        self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate).\
                 minimize(self.cost)
 
         self.correct_prediction = tf.equal(tf.argmax(self.logits,1),
