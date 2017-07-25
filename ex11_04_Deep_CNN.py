@@ -76,7 +76,7 @@ for epoch in range(training_epochs):
     total_batch = int(mnist.train.num_examples / batch_size)
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-        feed_dict = {X: batch_xs, Y: batch_ys}
+        feed_dict = {X: batch_xs, Y: batch_ys, keep_prob:1}
         c, _, = sess.run([cost, optimizer], feed_dict = feed_dict)
         avg_cost += c/total_batch
     print('Epoch:','%04d'%(epoch+1), 'cost=','{:.9f}'.format(avg_cost))
@@ -86,7 +86,7 @@ print('Finished!')
 correct_prediction = tf.equal(tf.argmax(hypothesis,1), tf.argmax(Y,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print('Accuracy:', sess.run(accuracy, feed_dict={
-    X:mnist.test.images,Y:mnist.test.labels}))
+    X:mnist.test.images,Y:mnist.test.labels, keep_prob:1}))
 
 
 
