@@ -49,9 +49,10 @@ prediction = tf.argmax(outputs, axis=2)
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(2000):
-        l, _ = sess.run([loss, train], feed_dict={X:x_one_hot}, Y:y_data)
+        l, _ = sess.run([loss, train], feed_dict={X:x_one_hot, Y:y_data})
         result = sess.run(prediction, feed_dict={X:x_one_hot})
-        print(i, "loss:", l, "prediction:", result, "true Y:", y_data)
-
-    result_str = [idx2char[c] for c in np.squeeze(result)]
-    print("\tPrediction str:", ''.join(result_str))
+        if i%10 == 0:
+            print(i, "loss:", l, "prediction:", result, "true Y:", y_data)
+            result_str = [idx2char[c] for c in np.squeeze(result)]
+            print("\tPrediction str:", ''.join(result_str))
+    
