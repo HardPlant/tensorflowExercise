@@ -33,14 +33,17 @@ initial_state = cell.zero_state(batch_size, tf.float32)
 outputs, _states = tf.nn.dynamic_rnn(
     cell,X,initial_state=initial_state,dtype=tf.float32)
 
-y_data = tf.constant([[1,1,1]])
+#[batch_size, sequence_length]
+y_data = tf.constant([[1,1,1]]) # - True
+#[batch_size, sequence_length, emb_dim], random number here
 prediction = tf.constant([[[0.2,0.7],[0.6,0.2],[0.2,0.9]]], dtype=tf.float32)
 
+#[batch_size * sequence_length]
 weights = tf.constant([[1,1,1]], dtype=tf.float32)
 
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
     logits=prediction, targets=y_data, weights=weights)
-    
+
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     print("Loss: ", sequence_loss.eval())
