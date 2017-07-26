@@ -11,15 +11,14 @@ char_dic = {w:i for i, w in enumerate(char_set)}
 dataX = []
 dataY = []
 #make datas
-dic_size = len(char_dic) # RNN input size(one_hot)
-rnn_hidden_size = len(char_dic) # RNN output size
+data_dim = len(char_set) # RNN input size(one_hot)
+rnn_hidden_size = len(char_set) # RNN output size
 num_classes = len(char_set) # 10, final output size
-batch_size = 1 # one sentence data -> one batch
 sequence_length = len(sentence) - 1 # LSTM unfolding unit
 
 for i in range(0, len(sentence) - sequence_length):
-    x_str = sentence[i:i + sequence_length]
-    y_str = sentence[i + 1 : i + sequence_length + 1]
+    x_str = sentence[i: i + sequence_length]
+    y_str = sentence[i+1: i + sequence_length + 1]
     print(i, x_str, '->', y_str)
 
     x = [char_dic[c] for c in x_str]
@@ -28,6 +27,7 @@ for i in range(0, len(sentence) - sequence_length):
     dataX.append(x)
     dataY.aapend(y)
 
+batch_size = len(dataX)
 
 #X data
 X = tf.placeholder(tf.int32, [None, sequence_length])
