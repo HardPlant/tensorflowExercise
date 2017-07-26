@@ -36,14 +36,18 @@ outputs, _states = tf.nn.dynamic_rnn(
 #[batch_size, sequence_length]
 y_data = tf.constant([[1,1,1]]) # - True
 #[batch_size, sequence_length, emb_dim], random number here
-prediction = tf.constant([[[0.2,0.7],[0.6,0.2],[0.2,0.9]]], dtype=tf.float32)
+prediction = tf.constant([[[0.3,0.7],[0.3,0.7],[0.3,0.7]]], dtype=tf.float32)
+prediction2 = tf.constant([[[0.1,0.9],[0.1,0.9],[0.1,0.9]]], dtype=tf.float32)
 
 #[batch_size * sequence_length]
 weights = tf.constant([[1,1,1]], dtype=tf.float32)
 
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
     logits=prediction, targets=y_data, weights=weights)
+sequence_loss2 = tf.contrib.seq2seq.sequence_loss(
+    logits=prediction2, targets=y_data, weights=weights)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     print("Loss: ", sequence_loss.eval())
+    print("Loss2: ", sequence_loss2.eval())
