@@ -35,3 +35,14 @@ trainY, testY = np.array(dataY[0:train_size]),
 
 X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
 Y = tf.placeholder(tf.float32, [None, 1])
+
+cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_dim, state_is_tuple=True)
+outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
+Y=pred = tf.contrib.layers.fully_connected(
+    outputs[:,-1], output_dim, activation_fn = None)
+
+loss = tf.reduce_sum(tf.square(Y_pred - Y)) # sum of the squares
+optimizer = tf.train.AdamOptimizer(0.01)
+train = optimizer.minimize(loss)
+
+
