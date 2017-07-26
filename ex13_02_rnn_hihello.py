@@ -33,18 +33,25 @@ initial_state = cell.zero_state(batch_size, tf.float32)
 outputs, _states = tf.nn.dynamic_rnn(
     cell,X,initial_state=initial_state,dtype=tf.float32)
 
-#[batch_size, sequence_length]
-y_data = tf.constant([[1,1,1]]) # - True
-#[batch_size, sequence_length, emb_dim], random number here
-prediction = tf.constant([[[0.3,0.7],[0.3,0.7],[0.3,0.7]]], dtype=tf.float32)
-
 #[batch_size * sequence_length]
-weights = tf.constant([[1,1,1]], dtype=tf.float32)
+weights = tf.ones([batch_size, sequence_length])
 
+#output should not directly here, but for simple example
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
-    logits=prediction, targets=y_data, weights=weights)
+    logits=outputs, targets=Y, weights=weights)
+
+loss = tf.reduce_mean(sequence_loss)
+#will optimize weights for logit function, target is Y
+train = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
+
+prediction = tf.argmax(outputs, axis=2)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    print("Loss: ", sequence_loss.eval())
-    print("Loss2: ", sequence_loss2.eval())
+    for i in range(2000):
+        l, _ = sess.run([loss, train], feed_dict={X:x_one_hot}, Y:y_data)
+        result = sess.run(prediction, feed_dict={X:x_one_hot})
+        print(i, "loss:", l, "prediction:", result, "true Y:", y_data)
+
+    result_str = [idx2char[c] for c in np.squeeze(result)]
+    print("\tPrediction str:", ''.join(result_str))
