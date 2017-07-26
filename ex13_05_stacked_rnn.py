@@ -47,6 +47,7 @@ outputs, _states = tf.nn.dynamic_rnn(
 X_for_softmax = tf.reshape(outputs, [-1, rnn_hidden_size])
 softmax_w = tf.get_variable("softmax_w", [rnn_hidden_size, num_classes])
 softmax_b = tf.get_variable("softmax_b", [num_classes])
+outputs = tf.matmul(X_for_softmax,softmax_w) + softmax_b
 
 outputs = tf.reshape(outputs, 
     [batch_size, sequence_length, num_classes])
