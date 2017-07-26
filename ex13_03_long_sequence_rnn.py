@@ -13,6 +13,10 @@ X = tf.placeholder(tf.float32, [None, sequence_length])
 #Y label
 Y = tf.placeholder(tf.int32, [None, sequence_length])
 
+num_classes = len(idx2char) # 10
+
+X_one_hot = tf.one_hot(X,num_classes) # shape observation needed
+
 cell = tf.contrib.rnn.BasicLSTMCell(
     num_units=hidden_size, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
