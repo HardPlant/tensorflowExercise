@@ -1,8 +1,8 @@
 import tensorflow as tf
 import numpy as np
 #hyper params
-sentence = ("if you want to build a ship, don't drum up people together to"
-            "collect wood and don't assign them task and work, but rather"
+sentence = ("if you want to build a ship, don't drum up people together to "
+            "collect wood and don't assign them task and work, but rather "
             "teach them to long for the endless immensity of the sea.")
 
 char_set = list(set(sentence)) # index-> char, list(i,f,y,o,)
