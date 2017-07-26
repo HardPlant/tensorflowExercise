@@ -38,6 +38,8 @@ X_one_hot = tf.one_hot(X,num_classes) # shape observation needed
 
 cell = tf.contrib.rnn.BasicLSTMCell(
     num_units=rnn_hidden_size, state_is_tuple=True)
+cell = rnn.MultiRNNCell([cell]*2, state_is_tuple=True)
+
 initial_state = cell.zero_state(batch_size, tf.float32)
 outputs, _states = tf.nn.dynamic_rnn(
     cell,X_one_hot,initial_state=initial_state,dtype=tf.float32)
