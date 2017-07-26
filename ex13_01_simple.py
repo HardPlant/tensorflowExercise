@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+#shape(1,5,4) = [[[1,0,0,0(x4)],...(x5)]]
 h = [1,0,0,0]
 e = [0,1,0,0]
 l = [0,0,1,0]
@@ -17,4 +18,5 @@ print(x_data)
 outputs, _states = tf.nn.dynamic_rnn(cell, x_data, dtype=tf.float32)
 
 sess.run(tf.global_variables_initializer())
+#will be (1,5,2)
 print(outputs.eval(session=sess))
