@@ -18,7 +18,8 @@ print(x_data)
 
 cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size,
                                      state_is_tuple=True)
-outputs, _states = tf.nn.dynamic_rnn(cell, x_data, dtype=tf.float32)
+outputs, _states = tf.nn.dynamic_rnn(cell, x_data, sequence_length=[5,3,4], 
+    dtype=tf.float32)
 
 sess.run(tf.global_variables_initializer())
 #will be (1,5,2)
