@@ -14,7 +14,7 @@ dataY = []
 data_dim = len(char_set) # RNN input size(one_hot)
 rnn_hidden_size = len(char_set) # RNN output size
 num_classes = len(char_set) # 10, final output size
-sequence_length = len(sentence) - 1 # LSTM unfolding unit
+sequence_length = 10 # LSTM unfolding unit, arbitrary number
 
 for i in range(0, len(sentence) - sequence_length):
     x_str = sentence[i: i + sequence_length]
