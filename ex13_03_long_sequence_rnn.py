@@ -22,10 +22,10 @@ Y = tf.placeholder(tf.int32, [None, sequence_length])
 X_one_hot = tf.one_hot(X,num_classes) # shape observation needed
 
 cell = tf.contrib.rnn.BasicLSTMCell(
-    num_units=hidden_size, state_is_tuple=True)
+    num_units=rnn_hidden_size, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 outputs, _states = tf.nn.dynamic_rnn(
-    cell,X,initial_state=initial_state,dtype=tf.float32)
+    cell,X_one_hot,initial_state=initial_state,dtype=tf.float32)
 
 #[batch_size * sequence_length]
 weights = tf.ones([batch_size, sequence_length])
@@ -42,11 +42,10 @@ prediction = tf.argmax(outputs, axis=2)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    for i in range(2000):
-        l, _ = sess.run([loss, train], feed_dict={X:x_one_hot, Y:y_data})
-        result = sess.run(prediction, feed_dict={X:x_one_hot})
-        if i%10 == 0:
-            print(i, "loss:", l, "prediction:", result, "true Y:", y_data)
-            result_str = [idx2char[c] for c in np.squeeze(result)]
-            print("\tPrediction str:", ''.join(result_str))
-    
+    for i in range(3000):
+        l, _ = sess.run([loss, train], feed_dict={X:x_data, Y:y_data})
+        result = sess.run(prediction, feed_dict={X:x_data})
+        
+        print(i, "loss:", l, "prediction:", result, "true Y:", y_data)
+        result_str = [idx2char[c] for c in np.squeeze(result)]
+        print("\tPrediction str:", ''.join(result_str))
