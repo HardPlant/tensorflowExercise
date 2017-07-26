@@ -1,29 +1,15 @@
 import tensorflow as tf
 import numpy as np
+sample = " if you want you"
+idx2char = list(set(sample)) # index-> char, list(i,f,y,o,)
+char2idx = {c:i for i, c in enumerate(idx2char)}
 
-#input = 5 (demension(hello))
-#seq = 6(len(hihello) -1 )
-#hidden(output_demension) = 5 (one hot)
-#batch = 1(string.num)
+sample_idx = [char2idx[c] for c in sample]
+x_data = [sample_idx[:-1]]
+y_data = [sample_idx[1:]]
 
-hidden_size = 5
-input_dim = 5
-batch_size = 1
-sequence_length = 6
-
-idx2char = ['h','i','e','l','o']
-x_data = [[0,1,0,2,3,3]] # hihell
-x_one_hot = [[[1,0,0,0,0], #h 0
-              [0,1,0,0,0], #i 1
-              [1,0,0,0,0], #h 0
-              [0,0,1,0,0], #e 2
-              [0,0,0,1,0], #l 3
-              [0,0,0,1,0] #l 3
-              ]]
-y_data = [[1,0,2,3,3,4]] # ihello
-
-#X one-hot, hidden_size = input_demension
-X = tf.placeholder(tf.float32, [None, sequence_length,input_dim])
+#X data
+X = tf.placeholder(tf.float32, [None, sequence_length])
 #Y label
 Y = tf.placeholder(tf.int32, [None, sequence_length])
 
