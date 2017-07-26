@@ -25,3 +25,13 @@ for i in range(0, len(y) - seq_length):
     print(_x, "->", _y)
     dataX.append(_x)
     dataY.append(_y)
+#Training & Test
+train_size = int(len(dataY)*0.7)
+test_size = len(dataY) - train_size
+trainX, testX = np.array(dataX[0:train_size]),
+                np.array(dataX[train_size:len(dataX)])
+trainY, testY = np.array(dataY[0:train_size]),
+                np.array(dataY[train_size:len(dataY)])
+
+X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
+Y = tf.placeholder(tf.float32, [None, 1])
