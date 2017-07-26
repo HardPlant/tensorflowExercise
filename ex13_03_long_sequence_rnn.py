@@ -15,7 +15,7 @@ batch_size = 1 # one sample data -> one batch
 sequence_length = len(sample) - 1 # LSTM unfolding unit
 
 #X data
-X = tf.placeholder(tf.float32, [None, sequence_length])
+X = tf.placeholder(tf.int32, [None, sequence_length])
 #Y label
 Y = tf.placeholder(tf.int32, [None, sequence_length])
 
