@@ -7,13 +7,17 @@ char2idx = {c:i for i, c in enumerate(idx2char)}
 sample_idx = [char2idx[c] for c in sample]
 x_data = [sample_idx[:-1]]
 y_data = [sample_idx[1:]]
+#hyper params
+dic_size = len(char2idx) # RNN input size(one_hot)
+rnn_hidden_size = len(char2idx) # RNN output size
+num_classes = len(idx2char) # 10, final output size
+batch_size = 1 # one sample data -> one batch
+sequence_length = len(sample) - 1 # LSTM unfolding unit
 
 #X data
 X = tf.placeholder(tf.float32, [None, sequence_length])
 #Y label
 Y = tf.placeholder(tf.int32, [None, sequence_length])
-
-num_classes = len(idx2char) # 10
 
 X_one_hot = tf.one_hot(X,num_classes) # shape observation needed
 
