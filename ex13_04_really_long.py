@@ -59,14 +59,13 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(500):
         l, _, results = sess.run(
-            [loss, train, oututs], feed_dict={X:dataX, Y:dataY})
-        result = sess.run(prediction, feed_dict={X:dataX})
-        for j, result in enumerate(results)
+            [loss, train, outputs], feed_dict={X:dataX, Y:dataY})
+        for j, result in enumerate(results):
             index = np.argmax(result, axis=1)
-            print(i, j, ''.join([char_set[t] for t in index]), 1)
+            print(i, j, ''.join([char_set[t] for t in index]), l)
     results = sess.run(outputs, feed_dict = {X:dataX})
-    
-    for j, result in enumerate(results)
+
+    for j, result in enumerate(results):
             index = np.argmax(result, axis=1)
             if j is 0:
                 print(''.join([char_set[t] for t in index]), end='')
