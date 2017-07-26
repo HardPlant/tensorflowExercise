@@ -1,20 +1,33 @@
 import tensorflow as tf
 import numpy as np
+#hyper params
 sentence = ("if you want to build a ship, don't drum up people together to"
             "collect wood and don't assign them task and work, but rather"
             "teach them to long for the endless immensity of the sea.")
-idx2char = list(set(sample)) # index-> char, list(i,f,y,o,)
-char2idx = {c:i for i, c in enumerate(idx2char)}
 
-sample_idx = [char2idx[c] for c in sample]
-x_data = [sample_idx[:-1]]
-y_data = [sample_idx[1:]]
-#hyper params
-dic_size = len(char2idx) # RNN input size(one_hot)
-rnn_hidden_size = len(char2idx) # RNN output size
-num_classes = len(idx2char) # 10, final output size
-batch_size = 1 # one sample data -> one batch
-sequence_length = len(sample) - 1 # LSTM unfolding unit
+char_set = list(set(sentence)) # index-> char, list(i,f,y,o,)
+char_dic = {w:i for i, w in enumerate(char_set)}
+
+dataX = []
+dataY = []
+#make datas
+dic_size = len(char_dic) # RNN input size(one_hot)
+rnn_hidden_size = len(char_dic) # RNN output size
+num_classes = len(char_set) # 10, final output size
+batch_size = 1 # one sentence data -> one batch
+sequence_length = len(sentence) - 1 # LSTM unfolding unit
+
+for i in range(0, len(sentence) - sequence_length):
+    x_str = sentence[i:i + sequence_length]
+    y_str = sentence[i + 1 : i + sequence_length + 1]
+    print(i, x_str, '->', y_str)
+
+    x = [char_dic[c] for c in x_str]
+    y = [char_dic[c] for c in y_str]
+
+    dataX.append(x)
+    dataY.aapend(y)
+
 
 #X data
 X = tf.placeholder(tf.int32, [None, sequence_length])
@@ -45,9 +58,9 @@ prediction = tf.argmax(outputs, axis=2)
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(3000):
-        l, _ = sess.run([loss, train], feed_dict={X:x_data, Y:y_data})
-        result = sess.run(prediction, feed_dict={X:x_data})
+        l, _ = sess.run([loss, train], feed_dict={X:dataX, Y:dataY})
+        result = sess.run(prediction, feed_dict={X:dataX})
         
-        print(i, "loss:", l, "prediction:", result, "true Y:", y_data)
-        result_str = [idx2char[c] for c in np.squeeze(result)]
+        print(i, "loss:", l, "prediction:", result, "true Y:", dataY)
+        result_str = [char_set[c] for c in np.squeeze(result)]
         print("\tPrediction str:", ''.join(result_str))
