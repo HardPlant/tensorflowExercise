@@ -1,6 +1,8 @@
 import tensorflow as tf
 import numpy as np
-sample = " if you want you"
+sentence = ("if you want to build a ship, don't drum up people together to"
+            "collect wood and don't assign them task and work, but rather"
+            "teach them to long for the endless immensity of the sea.")
 idx2char = list(set(sample)) # index-> char, list(i,f,y,o,)
 char2idx = {c:i for i, c in enumerate(idx2char)}
 
